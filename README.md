@@ -21,27 +21,19 @@ This ensures **confidentiality, integrity, and privacy** of users’ photos, mak
 
 ### **Student 1 – Jori Alshoshan**
 - **Role:** Project Setup + Encryption  
-- **Tasks:** Set up Flask project (`app.py`), create basic photo upload page, implement AES encryption.  
-- **Report:** Introduction + project objectives.  
-- **Presentation:** Present the project idea at the beginning.  
+- **Tasks:** Set up Flask project (`app.py`), create basic photo upload page, implement AES encryption.   
 
 ### **Student 2**
 - **Role:** Login + Database  
-- **Tasks:** Implement Register/Login system, SQLite database.  
-- **Report:** Design and functionalities.  
-- **Presentation:** Demonstrate registration and login.  
+- **Tasks:** Implement Register/Login system, SQLite database.   
 
 ### **Student 3**
 - **Role:** Front-End / User Interface  
-- **Tasks:** Enhance pages with HTML/CSS/Bootstrap, design photo gallery.  
-- **Report:** Challenges and solutions.  
-- **Presentation:** Show uploading and displaying photos.  
+- **Tasks:** Enhance pages with HTML/CSS/Bootstrap, design photo gallery.    
 
 ### **Student 4**
 - **Role:** Download + Decryption + Testing  
 - **Tasks:** Implement photo download and decryption, test the system.  
-- **Report:** Testing results + conclusion.  
-- **Presentation:** Demonstrate retrieving and decrypting photos live.  
 
 ---
 
@@ -79,26 +71,26 @@ This project is designed to **practice implementing AES cryptography** in a real
 git clone <repository-url
 ```
 2. Navigate to the project folder:
-   ```
-   cd secure_photo_gallery
-   ```
+```
+cd secure_photo_gallery
+```
 3. Create and activate a virtual environment:
-  ```
-    python -m venv venv
-    venv\Scripts\activate
-  ```
+ ```
+ python -m venv venv
+ venv\Scripts\activate
+ ```
 4. Install required packages:
-   ```
-   pip install -r requirements.txt
-   ```
+ ```
+ pip install -r requirements.txt
+ ```
 5. Run the application:
-   ```
-   python app.py
-   ```
+ ```
+ python app.py
+ ```
 6. Open a web browser and go to:
-   ```
-   http://127.0.0.1:5000/
-   ```
+ ```
+ http://127.0.0.1:5000/
+ ```
 ## Contact
 
 Jori Alshoshan – Jori.Alshoshan@gmail.com
