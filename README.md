@@ -93,7 +93,7 @@ cd secure_photo_gallery
  ```
 ## Contact
 
-Jori Alshoshan – Jori.Alshoshan@gmail.com
+Jori Alshoshan – jori.alshoshan@gmail.com
 
 © 2025 Secure Photo Gallery
 
