@@ -23,15 +23,15 @@ This ensures **confidentiality, integrity, and privacy** of users’ photos, mak
 - **Role:** Project Setup + Encryption  
 - **Tasks:** Set up Flask project (`app.py`), create basic photo upload page, implement AES encryption.   
 
-### **Student 2- Fatimah AlKhariji **
+### **Student 2- Fatimah AlKhariji**
 - **Role:** Login + Database  
 - **Tasks:** Implement Register/Login system, SQLite database.   
 
-### **Student 3- Norah Alyahq **
+### **Student 3- Norah Alyahq**
 - **Role:** Front-End / User Interface  
 - **Tasks:** Enhance pages with HTML/CSS/Bootstrap, design photo gallery.    
 
-### **Student 4- Rafah AlJabri **
+### **Student 4- Rafah AlJabri**
 - **Role:** Download + Decryption + Testing  
 - **Tasks:** Implement photo download and decryption, test the system.  
 
@@ -94,8 +94,11 @@ cd secure_photo_gallery
 ## Contact
 
 Jori Alshoshan – jori.alshoshan@gmail.com
+
 Fatimah AlKhariji - 
+
 Norah Alyahq - 
+
 Rafah AlJabri - 
 
 © 2025 Secure Photo Gallery
