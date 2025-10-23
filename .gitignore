@@ -1,0 +1,7 @@
+venv/
+uploads/
+*.pyc
+__pycache__/
+.env
+# Encrypted keys (never upload!)
+keys.json
