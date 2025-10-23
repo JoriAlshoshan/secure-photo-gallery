@@ -11,7 +11,9 @@ The goal of this project is to create a **secure photo gallery** where users can
 - Upload images safely through a web interface  
 - Automatically encrypt uploaded images using AES  
 - Store photos securely on the server  
-- Retrieve and decrypt images only with the correct encryption key  
+- Retrieve and decrypt images only with the correct encryption key
+
+Note: The encryption key is generated whenever an image is uploaded and is stored in a JSON file (keys.json) to allow authorized decryption later.
 
 This ensures **confidentiality, integrity, and privacy** of users’ photos, making it suitable for personal or sensitive data storage.
 
@@ -21,7 +23,7 @@ This ensures **confidentiality, integrity, and privacy** of users’ photos, mak
 
 ### **Student 1 – Jori Alshoshan**
 - **Role:** Project Setup + Encryption  
-- **Tasks:** Set up Flask project (`app.py`), create basic photo upload page, implement AES encryption.   
+- **Tasks:** Set up Flask project (`app.py`), create basic photo upload page, implement AES encryption and manage encryption keys in JSON.  
 
 ### **Student 2 – Fatimah Alkhariji**
 - **Role:** Login + Database  
@@ -41,9 +43,10 @@ This ensures **confidentiality, integrity, and privacy** of users’ photos, mak
 
 1. **User Interface** – Simple and responsive web pages for uploading and viewing photos.  
 2. **Photo Upload** – Supports common image formats (JPEG, PNG, etc.).  
-3. **AES Encryption** – Each uploaded image is encrypted with a randomly generated AES key.  
-4. **Secure Storage** – Encrypted images are stored safely on the server.  
-5. **Retrieval & Decryption** – Only authorized users can decrypt and view the original image.  
+3. **AES Encryption** – Each uploaded image is encrypted with a randomly generated AES key.
+4. Key Storage: Encryption keys are securely stored in keys.json for authorized decryption. 
+5. **Secure Storage** – Encrypted images are stored safely on the server.  
+6. **Retrieval & Decryption** – Only authorized users can decrypt and view the original image.  
 
 ---
 
