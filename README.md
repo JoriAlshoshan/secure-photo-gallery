@@ -84,7 +84,7 @@ cd secure_photo_gallery
  ```
 4. Install required packages:
  ```
- pip install -r requirements.txt
+pip install flask pycryptodome
  ```
 5. Run the application:
  ```
