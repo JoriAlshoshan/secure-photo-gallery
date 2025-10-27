@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Decrypt Image</title>
+</head>
+<body style="background-color: #121212; color: white; text-align: center; padding-top: 50px;">
+    <h1>Decrypt Image</h1>
+
+    <form action="/decrypt" method="POST">
+        <label for="filename">Choose Encrypted Image:</label><br>
+        <select name="filename" required>
+            {% for file in encrypted_files %}
+            <option value="{{ file }}">{{ file }}</option>
+            {% endfor %}
+        </select><br><br>
+
+        <label for="password">Enter Decryption Password:</label><br>
+        <input type="password" name="password" required><br><br>
+
+        <button type="submit">Decrypt</button>
+    </form>
+
+    {% if decrypted_image %}
+    <h2>Decrypted Image Preview:</h2>
+    <img src="{{ url_for('static', filename='decrypted_images/' ~ decrypted_image) }}" alt="Decrypted Image" style="max-width: 400px;">
+    {% elif error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    <!-- Back to gallery button -->
+    <div style="margin-top: 40px;">
+        <a href="{{ url_for('gallery') }}">
+            <button style="background-color: gray; color: white; padding: 10px 20px; border: none; border-radius: 5px;">
+                🔙 Back to Gallery
+            </button>
+        </a>
+    </div>
+</body>
+</html>
+
