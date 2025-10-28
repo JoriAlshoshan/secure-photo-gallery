@@ -28,7 +28,7 @@ def generate_password(length=8):
 @app.route('/')
 def index():
     """الصفحة الرئيسية"""
-    return redirect(url_for('gallery'))
+    return render_template('decoy.html')
 
 @app.route('/gallery')
 def gallery():
