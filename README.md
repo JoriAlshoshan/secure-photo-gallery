@@ -23,7 +23,7 @@ This ensures **confidentiality, integrity, and privacy** of users’ photos, mak
 - **Role:** Project Setup + Encryption  
 - **Tasks:** Set up Flask project (`app.py`), create basic photo upload page, implement AES encryption.   
 
-### **Student 2 – Fatimah Alkhariji**
+### **Student 2 – Fatimah Alkhuraiji**
 - **Role:** Login + Database  
 - **Tasks:** Implement Register/Login system, SQLite database.   
 
@@ -95,7 +95,7 @@ cd secure_photo_gallery
 
 Jori Alshoshan – jori.alshoshan@gmail.com
 
-Fatimah Alkhariji –
+Fatimah Alkhuraiji –
 
 Norah Alyahq – 
 

@@ -131,6 +131,11 @@
     <header class="main-header">
         <div class="header-content">
             <img src="{{ url_for('static', filename=logo_image) }}" alt="Secure Photo Gallery Logo" class="main-logo">
+                {% if session.username %}
+                <a href="{{ url_for('logout') }}" class="btn btn-primary" style="padding: 8px 15px; border-radius: 10px; font-weight: 500;">
+                    Logout
+                </a>
+                {% endif %}
         </div>
     </header>
 
