@@ -4,11 +4,13 @@ import random
 import string
 import sqlite3
 import re
-from flask import Flask, request, render_template, redirect, url_for, flash , session
+from flask import Flask, request, render_template, redirect, url_for, flash, session
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
-from werkzeug.security import generate_password_hash
-from werkzeug.security import check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
@@ -16,104 +18,126 @@ app.config['DECRYPTED_FOLDER'] = 'static/decrypted_images'
 app.config['SECRET_KEY'] = 'your_secret_key'
 KEY_FILE = 'key.json'
 
+# ===== Mailtrap SMTP Configuration =====
+SMTP_SERVER = "sandbox.smtp.mailtrap.io"
+SMTP_PORT = 2525
+SMTP_USERNAME = "1b99eb450eb119"
+SMTP_PASSWORD = "cd02f575d364fe"  # Mailtrap password
 
-#SQLite database:
-con=sqlite3.connect("database.db")
-#create users table if doesn't exist
-con.execute("create table if not exists users(pid integer primary key,name text,email text, password text)")
-#create images table if doesn't exist
-con.execute("create table if not exists images(id integer primary key,user_id integer,filename text,key text,password text,foreign key(user_id) references users(pid))")
+# ===== Database Setup =====
+con = sqlite3.connect("database.db")
+con.execute("CREATE TABLE IF NOT EXISTS users(pid INTEGER PRIMARY KEY, name TEXT, email TEXT, password TEXT)")
+con.execute("CREATE TABLE IF NOT EXISTS images(id INTEGER PRIMARY KEY, user_id INTEGER, filename TEXT, key TEXT, password TEXT, FOREIGN KEY(user_id) REFERENCES users(pid))")
 con.close()
 
-# تأكد من وجود المجلدات
+# Ensure upload and decrypted folders exist
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 os.makedirs(app.config['DECRYPTED_FOLDER'], exist_ok=True)
 
-# تأكد من وجود ملف المفاتيح
+# Ensure key file exists
 if not os.path.exists(KEY_FILE):
     with open(KEY_FILE, 'w') as f:
         json.dump({}, f)
 
-# توليد كلمة مرور عشوائية
+# ===== Utility Functions =====
 def generate_password(length=8):
+    """Generate a random password for image encryption"""
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
+def send_email(receiver_email, password):
+    """Send the image decryption password to the user's email"""
+    try:
+        msg = MIMEMultipart("alternative")
+        msg["Subject"] = "Your Image Decryption Password"
+        msg["From"] = "noreply@safesanit.com"
+        msg["To"] = receiver_email
+
+        text = f"Hello,\n\nHere is your image decryption password: {password}\n\nKeep it safe!"
+        html = f"""
+        <html>
+        <body>
+            <h3>Your image decryption password:</h3>
+            <p><b>{password}</b></p>
+            <p>Keep this password safe to decrypt your uploaded image.</p>
+        </body>
+        </html>
+        """
+
+        msg.attach(MIMEText(text, "plain"))
+        msg.attach(MIMEText(html, "html"))
+
+        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
+            server.starttls()
+            server.login(SMTP_USERNAME, SMTP_PASSWORD)
+            server.send_message(msg)
+            print(f"Email sent successfully to {receiver_email}")
+    except Exception as e:
+        print("Failed to send email:", e)
+
+# ===== Routes =====
 @app.route('/')
 def index():
-    """الصفحة الرئيسية"""
+    """Main page"""
     return render_template('decoy.html')
 
-    
 @app.route('/login', methods=['GET','POST'])
 def login():
-    """for login"""
-    if request.method=='POST':
-        name=request.form['username']
-        password=request.form['password']
-        con=sqlite3.connect("database.db")
-        con.row_factory=sqlite3.Row
-        cur=con.cursor()
-        cur.execute("select * from users where name=?", (name,))
-        data=cur.fetchone()
+    """User login"""
+    if request.method == 'POST':
+        name = request.form['username']
+        password = request.form['password']
+
+        con = sqlite3.connect("database.db")
+        con.row_factory = sqlite3.Row
+        cur = con.cursor()
+        cur.execute("SELECT * FROM users WHERE name=?", (name,))
+        data = cur.fetchone()
         con.close()
 
         if data and check_password_hash(data["password"], password):
-            session["user_id"]=data["pid"]
-            session["username"]=data["name"]
+            session["user_id"] = data["pid"]
+            session["username"] = data["name"]
+            session["email"] = data["email"]
             return redirect(url_for("gallery"))
         else:
-            flash("Invalid username or password, please try again.", "danger")
+            flash("Invalid username or password.", "danger")
     return render_template('loginpage.html')
 
 @app.route('/register', methods=['GET','POST'])
 def register():
-    """rigester page to create account for new users"""
-    if request.method=='POST':
+    """User registration page"""
+    if request.method == 'POST':
         try:
-            name=request.form['username']
-            email=request.form['email']
-            password=request.form['password']
-            
-            #for password validation
+            name = request.form['username']
+            email = request.form['email']
+            password = request.form['password']
+
             password_regex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$'
             if not re.match(password_regex, password):
                 flash("Password must be 8-20 characters, include uppercase, lowercase, number, and special character.", "danger")
                 return redirect(url_for("register"))
 
-            #connect to DB
-            con=sqlite3.connect("database.db")
-            cur=con.cursor()
-
-            # Check if username already exists
-            cur.execute("select * from users where name = ?", (name,))
+            con = sqlite3.connect("database.db")
+            cur = con.cursor()
+            cur.execute("SELECT * FROM users WHERE name=?", (name,))
             if cur.fetchone():
-                flash("Username already taken. Please choose another.", "danger")
+                flash("Username already exists.", "danger")
                 return redirect(url_for("register"))
 
-            #hasing the passwords
             hashed_password = generate_password_hash(password)
-            #insert values in DB
-            cur.execute("INSERT INTO users(name,email,password) VALUES (?,?,?)", (name,email,hashed_password))
+            cur.execute("INSERT INTO users(name, email, password) VALUES (?, ?, ?)", (name, email, hashed_password))
             con.commit()
-            flash("Record Added  Successfully", "success")
-        except:
-            flash("Error in Insert Operation: ", "danger")
-
+            flash("Registration successful! Please log in.", "success")
+        except Exception as e:
+            flash(f"Error during registration: {e}", "danger")
         finally:
-            return redirect(url_for("login"))
             con.close()
-
+            return redirect(url_for("login"))
     return render_template('register.html')
-
-#@app.route('/gallery')
-#def gallery():
-#    """عرض الصور المشفرة"""
-#    files = [f for f in os.listdir(app.config['UPLOAD_FOLDER']) if f.endswith('.enc')]
-#    return render_template('gallery.html', uploaded_files=files, logo_image='logo.png')
 
 @app.route('/gallery')
 def gallery():
-    """عرض الصور المشفرة"""
+    """Display user's encrypted images"""
     user_id = session.get("user_id")
     con = sqlite3.connect("database.db")
     con.row_factory = sqlite3.Row
@@ -121,33 +145,28 @@ def gallery():
     cur.execute("SELECT filename FROM images WHERE user_id=?", (user_id,))
     files = [row["filename"] for row in cur.fetchall()]
     con.close()
-
     return render_template('gallery.html', uploaded_files=files, logo_image='logo.png')
-
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload():
-    """رفع الصورة وتشفيرها"""
+    """Upload and encrypt image, then send decryption password via email"""
     if request.method == 'GET':
         return render_template('upload.html')
 
     if 'image' not in request.files:
-        flash("لم يتم اختيار ملف.")
+        flash("No file selected.")
         return redirect(url_for('gallery'))
 
     file = request.files['image']
     if file.filename == '':
-        flash("الرجاء اختيار ملف صالح.")
+        flash("Please select a valid file.")
         return redirect(url_for('gallery'))
 
     data = file.read()
-
-    # توليد مفتاح تشفير جديد
     key = get_random_bytes(16)
     cipher = AES.new(key, AES.MODE_EAX)
     ciphertext, tag = cipher.encrypt_and_digest(data)
 
-    # حفظ الملف المشفر
     enc_filename = file.filename + '.enc'
     enc_path = os.path.join(app.config['UPLOAD_FOLDER'], enc_filename)
     with open(enc_path, 'wb') as f:
@@ -155,50 +174,39 @@ def upload():
         f.write(tag)
         f.write(ciphertext)
 
-    # إنشاء كلمة مرور عشوائية وربطها مع المفتاح
     password = generate_password()
     key_hex = key.hex()
 
-    # تحديث ملف المفاتيح
-    with open(KEY_FILE, 'r') as f:
-        key_data = json.load(f)
-
-    key_data[enc_filename] = {
-        "key": key_hex,
-        "password": password
-    }
-
-    with open(KEY_FILE, 'w') as f:
-        json.dump(key_data, f, indent=4)
-
-
-    # Save image details in DB
     user_id = session.get("user_id")
+    user_email = session.get("email")
+
+    # Save image info in database
     con = sqlite3.connect("database.db")
     cur = con.cursor()
-    cur.execute("Insert into images(user_id, filename, key, password) VALUES (?, ?, ?, ?)", (user_id, enc_filename, key_hex, password))
+    cur.execute("INSERT INTO images(user_id, filename, key, password) VALUES (?, ?, ?, ?)", (user_id, enc_filename, key_hex, password))
     con.commit()
     con.close()
-    flash("Image encrypted successfully!")
-    return redirect(url_for('gallery'))
 
+    # Send decryption password by email
+    send_email(user_email, password)
+
+    flash("Image encrypted successfully! The password has been sent to your email.", "success")
+    return redirect(url_for('gallery'))
 
 @app.route('/decrypt', methods=['GET', 'POST'])
 def decrypt_page():
-    """Decrypt encrypted images"""
+    """Decrypt selected image"""
     encrypted_folder = app.config['UPLOAD_FOLDER']
     decrypted_folder = app.config['DECRYPTED_FOLDER']
-    key_file = KEY_FILE
-    encrypted_files = [f for f in os.listdir(encrypted_folder) if f.endswith('.enc')]
     user_id = session.get("user_id")
     decrypted_image = None
     error = None
 
-    #to show images of the user
+    # Get user's images
     con = sqlite3.connect("database.db")
     con.row_factory = sqlite3.Row
     cur = con.cursor()
-    cur.execute("select filename from images where user_id=?", (user_id,))
+    cur.execute("SELECT filename FROM images WHERE user_id=?", (user_id,))
     encrypted_files = [row["filename"] for row in cur.fetchall()]
     con.close()
     
@@ -206,22 +214,10 @@ def decrypt_page():
         filename = request.form['filename']
         password = request.form['password']
 
-        # Ensure key.json exists
-        #if not os.path.exists(key_file):
-        #    with open(key_file, 'w') as f:
-        #        json.dump({}, f)
-        #with open(key_file, 'r') as f:
-        #    key_data = json.load(f)
-        #file_data = key_data.get(filename)
-        #if file_data and password == file_data.get('password'):
-        #    key_hex = file_data.get('key')
-        #    key = bytes.fromhex(key_hex)
-
-        #get key and password from DB for the user
         con = sqlite3.connect("database.db")
         con.row_factory = sqlite3.Row
         cur = con.cursor()
-        cur.execute("select key, password from images where filename=? and user_id=?", (filename, user_id))
+        cur.execute("SELECT key, password FROM images WHERE filename=? AND user_id=?", (filename, user_id))
         row = cur.fetchone()
         con.close()
         
@@ -243,27 +239,19 @@ def decrypt_page():
                     dec_file.write(decrypted_data)
 
                 decrypted_image = os.path.basename(decrypted_path)
-                flash("✅ Image decrypted successfully!")
-            except Exception as e:
-                error = "❌ Failed to decrypt the image. The key or file may be incorrect."
+                flash("Image decrypted successfully!")
+            except Exception:
+                error = "Decryption failed. Invalid key or file."
         else:
-            error = "❌ Incorrect password!"
+            error = "Incorrect password!"
 
-    return render_template(
-        'decrypt.html',
-        encrypted_files=encrypted_files,
-        decrypted_image=decrypted_image,
-        error=error
-    )
+    return render_template('decrypt.html', encrypted_files=encrypted_files, decrypted_image=decrypted_image, error=error)
 
 @app.route('/logout')
 def logout():
-    """logout to end the session"""
+    """Logout user and clear session"""
     session.clear()
     return redirect(url_for("index"))
 
-
-
 if __name__ == '__main__':
     app.run(debug=True, port=5001)
-

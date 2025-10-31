@@ -1,41 +1,259 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
-    <title>Decrypt Image</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decrypt Secure Image</title> 
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <style>
+        /* --- متغيرات التصميم (مطابقة لـ gallery.html) --- */
+        :root {
+            --bg-dark: #121212;
+            --glass-card: rgba(30, 30, 30, 0.9);
+            --primary-accent: #37707e;
+            --hover-accent: #49828e;
+            --border-light: rgba(255, 255, 255, 0.125);
+            --dark-green: rgba(40, 167, 69, 0.3); /* أخضر زجاجي للنجاح */
+            --dark-red: rgba(220, 53, 69, 0.3); /* أحمر زجاجي للخطأ */
+            --card-radius: 20px;
+            --max-content-width: 700px; 
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: #ffffff;
+            font-family: 'Open Sans', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+            justify-content: flex-start;
+            background-image: radial-gradient(ellipse at 50% 180%, rgba(255, 255, 255, 0.08) 0%, rgba(18, 18, 18, 0) 70%);
+        }
+
+        /* الهيدر (مطابق لـ gallery.html) */
+        .main-header {
+            width: 100%;
+            background-color: #282828; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1); 
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        .header-content {
+            width: 100%;
+            max-width: var(--max-content-width);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between; 
+        }
+        .logo-img {
+            max-width: 250px;
+            height: auto;
+        }
+        .btn-logout { /* تنسيق زر الخروج */
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ccc; padding: 8px 15px; border-radius: 8px;
+            font-weight: 600; font-size: 0.9rem; text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        .btn-logout:hover { background-color: rgba(255, 255, 255, 0.2); color: #fff; }
+        
+        /* توسيط المحتوى */
+        .container {
+            max-width: var(--max-content-width); 
+            width: 90%;
+            display: flex;
+            flex-direction: column;
+            align-items: center; 
+        }
+        
+        h1 { font-weight: 700; color: #fff; margin-bottom: 30px; text-align: center;font-size: 1.8rem; }
+        h2 { font-weight: 700; }
+        h3 { color: var(--primary-accent); font-weight: 700; } /* لون مميز لعنوان الصورة */
+
+        /* تصميم الكرت الزجاجي (أصغر قليلاً لفك التشفير) */
+        .glass-card {
+            max-width: 550px; 
+            width: 100%;
+            padding: 30px;
+            background: var(--glass-card);
+            backdrop-filter: blur(8px) saturate(150%);
+            border-radius: var(--card-radius);
+            border: 1px solid var(--border-light);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            margin-bottom: 30px;
+        }
+
+        /* حقول الإدخال والقائمة المنسدلة (مطابقة لـ gallery.html) */
+        .form-control, .form-select {
+            background-color: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #ffffff;
+            border-radius: 10px;
+            height: 50px; 
+            font-size: 1rem; 
+        }
+        .form-control::placeholder { color: #6c757d; font-size: 1rem; }
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(0, 0, 0, 0.5);
+            border-color: #ffffff; 
+            box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+        }
+        .form-label {
+            font-weight: 600; 
+            color: #ccc;
+            text-align: left;
+            display: block;
+            margin-bottom: 8px; 
+        }
+        
+        /* الأزرار (مطابقة لـ gallery.html) */
+        .btn-action {
+            background-color: var(--primary-accent); 
+            border: none;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 12px 0; 
+            color: #fff;
+            width: 100%;
+            transition: background-color 0.3s;
+            margin-top: 20px; 
+        }
+        .btn-action:hover { background-color: var(--hover-accent); }
+
+        /* زر العودة للمعرض (بدون إيموجي) */
+        .btn-back {
+            background-color: #444; 
+            border: none;
+            font-weight: 600;
+            border-radius: 10px;
+            padding: 10px 20px;
+            color: #ccc;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            margin-top: 20px;
+        }
+        .btn-back:hover { background-color: #555; color: #fff; }
+
+        /* تنسيق رسائل الفلاش (النجاح/الخطأ) */
+        .flash-message-card { 
+            border-radius: 10px;
+            padding: 15px 20px;
+            margin-bottom: 30px;
+            text-align: left;
+            width: 100%;
+            max-width: var(--max-content-width);
+            font-weight: 600;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .flash-message-card.success {
+             background: var(--dark-green);
+             border: 1px solid rgba(40, 167, 69, 0.7);
+             color: #d4edda;
+        }
+        .flash-message-card.danger {
+             background: var(--dark-red);
+             border: 1px solid rgba(220, 53, 69, 0.7);
+             color: #f8d7da;
+        }
+        .btn-close { filter: invert(100%); opacity: 0.8; margin-left: 10px; }
+
+        /* كرت عرض الصورة المفكوكة */
+        .decrypted-preview img {
+            border: 1px solid #444;
+            border-radius: 8px;
+            max-width: 100%; 
+            max-height: 400px; 
+            object-fit: contain;
+            margin-top: 15px;
+        }
+        .decrypted-preview p {
+             color: #a0a0a0; 
+             font-size: 0.9rem;
+        }
+
+    </style>
 </head>
-<body style="background-color: #121212; color: white; text-align: center; padding-top: 50px;">
-    <h1>Decrypt Image</h1>
+<body>
+    <header class="main-header">
+        <div class="header-content">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Secure Photo Gallery Logo" class="logo-img">
+            {% if session.username %}
+                <a href="{{ url_for('logout') }}" class="btn-logout">
+                    Logout
+                </a>
+            {% endif %}
+        </div>
+    </header>
 
-    <form action="/decrypt" method="POST">
-        <label for="filename">Choose Encrypted Image:</label><br>
-        <select name="filename" required>
-            {% for file in encrypted_files %}
-            <option value="{{ file }}">{{ file }}</option>
-            {% endfor %}
-        </select><br><br>
+    <div class="container">
 
-        <label for="password">Enter Decryption Password:</label><br>
-        <input type="password" name="password" required><br><br>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message-card {{ category }} alert alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        {% if error %}
+             <div class="flash-message-card danger alert alert-dismissible fade show" role="alert">
+                {{ error }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
 
-        <button type="submit">Decrypt</button>
-    </form>
+        <div class="glass-card">
+            <h1>Decrypt Image</h1>
+            
+            <form action="/decrypt" method="POST">
+                
+                <div class="mb-3">
+                    <label for="filename" class="form-label">Choose Encrypted Image:</label>
+                    <select name="filename" class="form-select" required>
+                        <option value="" disabled selected>-- Select a file to decrypt --</option>
+                        {% for file in encrypted_files %}
+                        <option value="{{ file }}">{{ file }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="password" class="form-label">Enter Decryption Password:</label>
+                    <input type="password" name="password" class="form-control" placeholder="Enter password" required>
+                </div>
+                
+                <button type="submit" class="btn-action">Decrypt</button>
+            </form>
+        </div>
 
-    {% if decrypted_image %}
-    <h2>Decrypted Image Preview:</h2>
-    <img src="{{ url_for('static', filename='decrypted_images/' ~ decrypted_image) }}" alt="Decrypted Image" style="max-width: 400px;">
-    {% elif error %}
-    <p style="color: red;">{{ error }}</p>
-    {% endif %}
-
-    <!-- Back to gallery button -->
-    <div style="margin-top: 40px;">
-        <a href="{{ url_for('gallery') }}">
-            <button style="background-color: gray; color: white; padding: 10px 20px; border: none; border-radius: 5px;">
-                🔙 Back to Gallery
-            </button>
-        </a>
+        {% if decrypted_image %}
+            <div class="glass-card decrypted-preview">
+                <h3>Decrypted Image Preview:</h3>
+                <img src="{{ url_for('static', filename='decrypted_images/' ~ decrypted_image) }}" alt="Decrypted Image">
+                <p class="mt-2">File: {{ decrypted_image }}</p>
+            </div>
+        {% endif %}
+        
+        <div style="text-align: center; margin-bottom: 40px;">
+            <a href="{{ url_for('gallery') }}" class="btn-back">
+                Back to Gallery
+            </a>
+        </div>
     </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
