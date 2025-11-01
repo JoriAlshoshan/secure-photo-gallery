@@ -1,28 +1,30 @@
 # Secure Photo Gallery
 
-**Secure Photo Gallery** is a **web-based application** developed using **Python and Flask** to provide a secure way to upload, store, and manage personal photos. The project focuses on **data privacy** by encrypting photos with **AES encryption** before storing them, ensuring that only authorized users can access the original images.  
-
+A web-based application developed with Python and Flask to securely upload, store, and manage personal photos. The project emphasizes data privacy by encrypting photos using AES, and sending a unique decryption password privately to the user’s email via Mailtrap.
 ---
 
 ## Project Idea / Concept
 
-The goal of this project is to create a **secure photo gallery** where users can:
+The goal of this project is to create a secure photo gallery where users can:
 
-- Upload images safely through a web interface  
-- Automatically encrypt uploaded images using AES  
-- Store photos securely on the server  
-- Retrieve and decrypt images only with the correct encryption key  
+- Upload images safely through a web interface.
 
-This ensures **confidentiality, integrity, and privacy** of users’ photos, making it suitable for personal or sensitive data storage.
+- Automatically encrypt uploaded images using AES.
+
+- Store encrypted photos securely on the server.
+
+- Retrieve and decrypt images only using the password sent privately via email.
+
+This ensures confidentiality, integrity, and privacy of users’ photos, making it ideal for storing personal or sensitive data.
 
 ---
 
 ## Team Members and Roles
 
 ### **Student 1 – Jori Alshoshan**
-- **Role:** Project Setup + Encryption  
-- **Tasks:** Set up Flask project (`app.py`), create basic photo upload page, implement AES encryption.   
-
+- **Role:** Project Setup + Encryption + Email Decryption Password 
+- **Tasks:** Set up the Flask project and core structure (app.py), implement AES encryption for uploaded images, and send the decryption password privately via email using Mailtrap.
+  
 ### **Student 2 – Fatimah Alkhuraiji**
 - **Role:** Login + Database  
 - **Tasks:** Implement Register/Login system, SQLite database.   
@@ -32,18 +34,23 @@ This ensures **confidentiality, integrity, and privacy** of users’ photos, mak
 - **Tasks:** Enhance pages with HTML/CSS/Bootstrap, design photo gallery.    
 
 ### **Student 4 – Rafah Aljabri**
-- **Role:** Download + Decryption + Testing  
-- **Tasks:** Implement photo download and decryption, test the system.  
+- **Role:** Download + Decryption  
+- **Tasks:** Implement photo download and decryption.  
 
 ---
 
 ## Key Features
+1. **User Interface** - Simple and responsive web pages for uploading and viewing images.
 
-1. **User Interface** – Simple and responsive web pages for uploading and viewing photos.  
-2. **Photo Upload** – Supports common image formats (JPEG, PNG, etc.).  
-3. **AES Encryption** – Each uploaded image is encrypted with a randomly generated AES key.  
-4. **Secure Storage** – Encrypted images are stored safely on the server.  
-5. **Retrieval & Decryption** – Only authorized users can decrypt and view the original image.  
+2. **Photo Upload** -  Supports common image formats such as JPEG and PNG.
+
+3. **AES Encryption** -  Each uploaded image is encrypted with a random AES key.
+
+4. **Secure Storage** -  Encrypted images are stored safely on the server.
+
+5. **Retrieval & Decryption** -  Only authorized users can decrypt images using the password sent to their email.
+
+6. **Decryption Password via Email** - Each image receives a unique password sent privately via Mailtrap.
 
 ---
 
@@ -60,7 +67,8 @@ This project is designed to **practice implementing AES cryptography** in a real
 - PyCryptodome (AES encryption)  
 - HTML/CSS (Front-end templates)  
 - SQLite (Database)  
-- Git / GitHub (Version control)  
+- Git / GitHub (Version control)
+- Mailtrap (Email testing)
 
 ---
 
@@ -102,6 +110,7 @@ Norah Alyahq –
 Rafah Aljabri –
 
 © 2025 Secure Photo Gallery
+
 
 
 
