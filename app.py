@@ -16,15 +16,14 @@ app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['DECRYPTED_FOLDER'] = 'static/decrypted_images'
 app.config['SECRET_KEY'] = 'your_secret_key'
-KEY_FILE = 'key.json'
 
-# ===== Mailtrap SMTP Configuration =====
+#  Mailtrap SMTP Configuration 
 SMTP_SERVER = "sandbox.smtp.mailtrap.io"
 SMTP_PORT = 2525
 SMTP_USERNAME = "1b99eb450eb119"
-SMTP_PASSWORD = "cd02f575d364fe"  # Mailtrap password
+SMTP_PASSWORD = "cd02f575d364fe"  
 
-# ===== Database Setup =====
+# Database Setup 
 con = sqlite3.connect("database.db")
 con.execute("CREATE TABLE IF NOT EXISTS users(pid INTEGER PRIMARY KEY, name TEXT, email TEXT, password TEXT)")
 con.execute("CREATE TABLE IF NOT EXISTS images(id INTEGER PRIMARY KEY, user_id INTEGER, filename TEXT, key TEXT, password TEXT, FOREIGN KEY(user_id) REFERENCES users(pid))")
@@ -34,12 +33,7 @@ con.close()
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 os.makedirs(app.config['DECRYPTED_FOLDER'], exist_ok=True)
 
-# Ensure key file exists
-if not os.path.exists(KEY_FILE):
-    with open(KEY_FILE, 'w') as f:
-        json.dump({}, f)
-
-# ===== Utility Functions =====
+#  Utility Functions 
 def generate_password(length=8):
     """Generate a random password for image encryption"""
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
@@ -74,7 +68,7 @@ def send_email(receiver_email, password):
     except Exception as e:
         print("Failed to send email:", e)
 
-# ===== Routes =====
+# Routes 
 @app.route('/')
 def index():
     """Main page"""
