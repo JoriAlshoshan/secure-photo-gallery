@@ -1,6 +1,7 @@
 # Secure Photo Gallery
 
-A web-based application developed with Python and Flask to securely upload, store, and manage personal photos. The project emphasizes data privacy by encrypting photos using AES, and sending a unique decryption password privately to the user’s email via Mailtrap.
+Secure Photo Gallery is a web-based application built with Python and Flask for securely uploading, storing, and managing personal photos. The project focuses on data privacy by encrypting images using AES, and sending a unique decryption password privately to the user’s email via Mailtrap.
+
 ---
 
 ## Project Idea / Concept
@@ -110,6 +111,7 @@ Norah Alyahq –
 Rafah Aljabri –
 
 © 2025 Secure Photo Gallery
+
 
 
 
