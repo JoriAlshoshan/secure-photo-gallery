@@ -18,7 +18,7 @@ The goal of this project is to create a secure photo gallery where users can:
 
 This ensures confidentiality, integrity, and privacy of users’ photos, making it ideal for storing personal or sensitive data.
 
----
+Additionally, the system was deployed on Microsoft Azure to make it accessible online for testing and demonstration purposes.
 
 ## Team Members and Roles
 
@@ -105,6 +105,7 @@ cd secure_photo_gallery
 
 This project was implemented and deployed to Microsoft Azure.
 It is available online through the following link:
+
 https://secure-photo-gallery-hqhyhwbygfasaxaq.uaenorth-01.azurewebsites.net/
 
 ## Contact
@@ -118,6 +119,7 @@ Norah Alyahq –
 Rafah Aljabri –
 
 © 2025 Secure Photo Gallery
+
 
 
 
