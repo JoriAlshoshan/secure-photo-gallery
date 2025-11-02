@@ -23,8 +23,8 @@ This ensures confidentiality, integrity, and privacy of users’ photos, making 
 ## Team Members and Roles
 
 ### **Student 1 – Jori Alshoshan**
-- **Role:** Project Setup + Encryption + Email Decryption Password 
-- **Tasks:** Set up the Flask project and core structure (app.py), implement AES encryption for uploaded images, and send the decryption password privately via email using Mailtrap.
+- **Role:** Project Setup + Encryption + Email Decryption Password + Azure Deployment
+- **Tasks:** Set up the Flask project and core structure (app.py), implement AES encryption for uploaded images, and send the decryption password privately via email using Mailtrap, and deploy the project on Microsoft Azure.
   
 ### **Student 2 – Fatimah Alkhuraiji**
 - **Role:** Login + Database  
@@ -53,6 +53,7 @@ This ensures confidentiality, integrity, and privacy of users’ photos, making 
 
 6. **Decryption Password via Email** - Each image receives a unique password sent privately via Mailtrap.
 
+7. **Cloud Deployment (Azure)** – The project is successfully deployed and hosted on Microsoft Azure for online access and testing.
 ---
 
 ## Project Goal
@@ -70,7 +71,7 @@ This project is designed to **practice implementing AES cryptography** in a real
 - SQLite (Database)  
 - Git / GitHub (Version control)
 - Mailtrap (Email testing)
-
+- Microsoft Azure (Cloud deployment)
 ---
 
 ## How to Run the Project
@@ -100,6 +101,12 @@ cd secure_photo_gallery
  ```
  http://127.0.0.1:5000/
  ```
+## Implementation in Azure
+
+This project was implemented and deployed to Microsoft Azure.
+It is available online through the following link:
+https://secure-photo-gallery-hqhyhwbygfasaxaq.uaenorth-01.azurewebsites.net/
+
 ## Contact
 
 Jori Alshoshan – jori.alshoshan@gmail.com
@@ -111,6 +118,7 @@ Norah Alyahq –
 Rafah Aljabri –
 
 © 2025 Secure Photo Gallery
+
 
 
 
