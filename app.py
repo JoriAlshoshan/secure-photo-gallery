@@ -18,10 +18,10 @@ app.config['DECRYPTED_FOLDER'] = 'static/decrypted_images'
 app.config['SECRET_KEY'] = 'your_secret_key'
 
 #  Mailtrap SMTP Configuration 
-SMTP_SERVER = "sandbox.smtp.mailtrap.io"
-SMTP_PORT = 2525
-SMTP_USERNAME = "1b99eb450eb119"
-SMTP_PASSWORD = "cd02f575d364fe"  
+SMTP_SERVER = "smtp.gmail.com"
+SMTP_PORT = 587
+SMTP_USERNAME = "cosecure.gallery@gmail.com"
+SMTP_PASSWORD = "iqrnietvlnvgrobz"  
 
 # Database Setup 
 con = sqlite3.connect("database.db")
