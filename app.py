@@ -17,7 +17,7 @@ app.config['UPLOAD_FOLDER'] = 'uploads'
 app.config['DECRYPTED_FOLDER'] = 'static/decrypted_images'
 app.config['SECRET_KEY'] = 'your_secret_key'
 
-#  Mailtrap SMTP Configuration 
+#  Gmail SMTP Configuration 
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 SMTP_USERNAME = "cosecure.gallery@gmail.com"
