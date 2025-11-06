@@ -24,14 +24,14 @@ Additionally, the system was deployed on Microsoft Azure to make it accessible o
 
 ### **Student 1 – Jori Alshoshan**
 - **Role:** Project Setup + Encryption + Email Decryption Password + Azure Deployment
-- **Tasks:** Set up the Flask project and core structure (app.py), implement AES encryption for uploaded images, and send the decryption password privately via email using Mailtrap, and deploy the project on Microsoft Azure.
+- **Tasks:** Set up the Flask project and core structure (app.py), implement AES encryption for uploaded images, and send the decryption password privately via email, and deploy the project on Microsoft Azure.
   
 ### **Student 2 – Fatimah Alkhuraiji**
 - **Role:** Login + Database  
 - **Tasks:** Implement Register/Login system, SQLite database.   
 
 ### **Student 3 – Norah Alyahq**
-- **Role:** Front-End / User Interface  
+- **Role:** Front-End / User Interface + Email Decryption Password
 - **Tasks:** Enhance pages with HTML/CSS/Bootstrap, design photo gallery.    
 
 ### **Student 4 – Rafah Aljabri**
@@ -51,7 +51,7 @@ Additionally, the system was deployed on Microsoft Azure to make it accessible o
 
 5. **Retrieval & Decryption** -  Only authorized users can decrypt images using the password sent to their email.
 
-6. **Decryption Password via Email** - Each image receives a unique password sent privately via Mailtrap.
+6. **Decryption Password via Email** - Each image receives a unique password sent privately via email.
 
 7. **Cloud Deployment (Azure)** – The project is successfully deployed and hosted on Microsoft Azure for online access and testing.
 ---
@@ -70,7 +70,7 @@ This project is designed to **practice implementing AES cryptography** in a real
 - HTML/CSS (Front-end templates)  
 - SQLite (Database)  
 - Git / GitHub (Version control)
-- Mailtrap (Email testing)
+- Email testing
 - Microsoft Azure (Cloud deployment)
 ---
 
@@ -119,6 +119,7 @@ Norah Alyahq –
 Rafah Aljabri –
 
 © 2025 Secure Photo Gallery
+
 
 
 
