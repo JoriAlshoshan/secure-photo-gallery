@@ -23,15 +23,15 @@ Additionally, the system was deployed on Microsoft Azure to make it accessible o
 ## Team Members and Roles
 
 ### **Student 1 – Jori Alshoshan**
-- **Role:** Project Setup + Encryption + Gmail Decryption Password + Azure Deployment
-- **Tasks:** Set up the Flask project and core structure (app.py), implement AES encryption for uploaded images, and send the decryption password privately via gmail, and deploy the project on Microsoft Azure.
+- **Role:** Project Setup + Encryption + Email Decryption Password + Azure Deployment
+- **Tasks:** Set up the Flask project and core structure (app.py), implement AES encryption for uploaded images, and send the decryption password privately via email, and deploy the project on Microsoft Azure.
   
 ### **Student 2 – Fatimah Alkhuraiji**
 - **Role:** Login + Database  
 - **Tasks:** Implement Register/Login system, SQLite database.   
 
 ### **Student 3 – Norah Alyahq**
-- **Role:** Front-End / User Interface + Gmail Decryption Password
+- **Role:** Front-End / User Interface + Gmail SMTP Configuration
 - **Tasks:** Enhance pages with HTML/CSS/Bootstrap, design photo gallery.    
 
 ### **Student 4 – Rafah Aljabri**
@@ -119,6 +119,7 @@ Norah Alyahq –
 Rafah Aljabri –
 
 © 2025 Secure Photo Gallery
+
 
 
 
