@@ -1,6 +1,6 @@
 # Secure Photo Gallery
 
-Secure Photo Gallery is a web-based application built with Python and Flask for securely uploading, storing, and managing personal photos. The project focuses on data privacy by encrypting images using AES, and sending a unique decryption password privately to the user’s email via Mailtrap.
+Secure Photo Gallery is a web-based application built with Python and Flask for securely uploading, storing, and managing personal photos. The project focuses on data privacy by encrypting images using AES, and sending a unique decryption password privately to the user’s email via gmail.
 
 ---
 
@@ -14,7 +14,7 @@ The goal of this project is to create a secure photo gallery where users can:
 
 - Store encrypted photos securely on the server.
 
-- Retrieve and decrypt images only using the password sent privately via email.
+- Retrieve and decrypt images only using the password sent privately via gmail.
 
 This ensures confidentiality, integrity, and privacy of users’ photos, making it ideal for storing personal or sensitive data.
 
@@ -24,7 +24,7 @@ Additionally, the system was deployed on Microsoft Azure to make it accessible o
 
 ### **Student 1 – Jori Alshoshan**
 - **Role:** Project Setup + Encryption + Email Decryption Password + Azure Deployment
-- **Tasks:** Set up the Flask project and core structure (app.py), implement AES encryption for uploaded images, and send the decryption password privately via email, and deploy the project on Microsoft Azure.
+- **Tasks:** Set up the Flask project and core structure (app.py), implement AES encryption for uploaded images, and send the decryption password privately via gmail, and deploy the project on Microsoft Azure.
   
 ### **Student 2 – Fatimah Alkhuraiji**
 - **Role:** Login + Database  
@@ -51,7 +51,7 @@ Additionally, the system was deployed on Microsoft Azure to make it accessible o
 
 5. **Retrieval & Decryption** -  Only authorized users can decrypt images using the password sent to their email.
 
-6. **Decryption Password via Email** - Each image receives a unique password sent privately via email.
+6. **Decryption Password via Gmail** - Each image receives a unique password sent privately via gmail.
 
 7. **Cloud Deployment (Azure)** – The project is successfully deployed and hosted on Microsoft Azure for online access and testing.
 ---
@@ -70,7 +70,7 @@ This project is designed to **practice implementing AES cryptography** in a real
 - HTML/CSS (Front-end templates)  
 - SQLite (Database)  
 - Git / GitHub (Version control)
-- Email testing
+- Gmail
 - Microsoft Azure (Cloud deployment)
 ---
 
@@ -119,6 +119,7 @@ Norah Alyahq –
 Rafah Aljabri –
 
 © 2025 Secure Photo Gallery
+
 
 
 
